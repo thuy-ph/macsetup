@@ -1,0 +1,41 @@
+[user]
+	name = thuyphamna
+	email = phamnhuanhthuy@gmail.com
+
+[alias]
+  st = status
+  br = branch
+  new = checkout -b
+  adduptream = remote add upstream
+  checkoutremote = git checkout --track
+
+  # committing (optionally with message)
+  c = "!f() { \
+    if [ $# -eq 0 ]; then \
+      git commit -v; \
+    else \
+      pair_info=$(git pair print); \
+      cur_branch=$(git bb); \
+      commit_prefix=$(echo \"${cur_branch^^}\" | grep -o \"^[^-]*-\\?[^-]*\"); \
+      commit_msg=$1; \
+      final_msg=$(echo [${commit_prefix}] ${commit_msg}'\n'\"${pair_info}\"); \
+      echo \"$final_msg\"; \
+      git commit -m  \"$final_msg\"; \
+  fi; }; f"
+
+  # committing + skipping linting checks and tests (optionally with message)
+  cn = "!f() { \
+    if [ $# -eq 0 ]; then \
+      git commit -v; \
+    else \
+      pair_info=$(git pair print); \
+      cur_branch=$(git bb); \
+      commit_msg=$1; \
+      commit_prefix=$(echo \"${cur_branch^^}\" | grep -o \"^[^-]*-\\?[^-]*\"); \
+      final_msg=$(echo [${commit_prefix}] ${commit_msg}'\n'\"${pair_info}\"); \
+      echo \"$final_msg\"; \
+      git commit -m  \"$final_msg\" -n; \
+  fi; }; f"
+[core]
+	autocrlf = input
+	excludesfile = thuy.pham/.gitignore_global
